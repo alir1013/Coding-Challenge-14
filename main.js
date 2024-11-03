@@ -1,14 +1,15 @@
 //Task 2:Fetch Tickets Using Async/Await and Handle Errors
 
 async function fetchTickets() {
-    const api = "https://jsonplaceholder.typicode.com/posts";
+    const api = "https://jsonplaceholder.typicode.com/posts"; //API URL
     const errorMessage = document.getElementById("error-message");
+    const loadingButton= document.getElementById("loading-button")  //Defining loading for "finally" block
 
     try {
-        const response = await fetch(api);
+        const response = await fetch(api);   //Fetching API
         
         if (!response.ok) {
-            throw new Error(`Error: ${response.status} - ${response.statusText}`);
+            throw new Error(`Error Occured: ${response.status} - ${response.statusText}`);    //Error is thrown inside an async function
         }
 
         const tickets = await response.json();
@@ -20,10 +21,12 @@ async function fetchTickets() {
         displayTickets(tickets);
 
     } catch (error) {
-        errorMessage.style.display = "Error fetching data";
+        errorMessage.style.display = "Error fetching data";  //Showcases the error message 
         errorMessage.textContent = error.message;
-    }
-}
+
+    }finally {
+    loadingButton.style.display = 'none'; //Task 4: Use finally to Ensure Cleanup
+}}
 
 fetchTickets();
 
@@ -36,8 +39,8 @@ function displayTickets(tickets) {
     tickets.forEach(ticket => {
         const ticketDisplay = document.createElement("div");
         ticketDisplay.classList.add("ticket");
-
-        ticketDisplay.innerHTML = `
+//Displaying detaisl for each unresolved ticket 
+        ticketDisplay.innerHTML = `        
             <h3>Ticket ID: ${ticket.id}</h3>
             <p>Customer Name:User ${ticket.userId}</p>
             <p>Issue Description:${ticket.title}</p>
@@ -48,3 +51,5 @@ function displayTickets(tickets) {
     });
 }
 
+//Task 4: Use finally to Ensure Cleanup
+//Added onto task two
